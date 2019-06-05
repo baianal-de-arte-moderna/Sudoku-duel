@@ -11,11 +11,11 @@ public class Square : MonoBehaviour
     }
 
     public TMP_Text text;
+    public bool finished = false;
 
     int solutionNumber = 0;
     int currentNumber = 0;
     bool hasPlayer = false;
-    bool finished = false;
 
     public void Initialize(int start, int solution)
     {

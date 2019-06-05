@@ -26,7 +26,21 @@ public class Player : MonoBehaviour
     bool incrementing = false;
 
     int score = 0;
+    public int Score
+    {
+        get
+        {
+            return score;
+        }
+    }
     int id = -1;
+    public int Id
+    {
+        get
+        {
+            return id;
+        }
+    }
     SpriteRenderer render;
     // Start is called before the first frame update
     void Awake()
@@ -66,8 +80,18 @@ public class Player : MonoBehaviour
         transform.localPosition = Vector2.one * -4 + boardPosition;
     }
 
-    public void SetId(int id, Color playerColor)
+    public void Initialize(int id, Color playerColor)
     {
+        // Reset Score
+        score = 0;
+        ChangeScore(0);
+
+        // Reset Events
+        OnPlayerLeftSpace.RemoveAllListeners();
+        OnPlayerSuggestIncrease.RemoveAllListeners();
+        OnPlayerSuggestMove.RemoveAllListeners();
+
+        // New Player
         this.id = id;
         render.color = playerColor;
         scoreElement.color = playerColor;
