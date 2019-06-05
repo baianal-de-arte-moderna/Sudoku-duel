@@ -22,7 +22,7 @@ public class Square : MonoBehaviour
         solutionNumber = solution;
         currentNumber = start;
         
-        if (currentNumber != 0)
+        if (currentNumber == solutionNumber)
         {
             text.text = "" + currentNumber;
             finished = true;
