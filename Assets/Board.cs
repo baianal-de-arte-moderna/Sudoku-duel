@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -35,8 +38,9 @@ public class Board : MonoBehaviour
     {
         using (StreamReader r = new StreamReader("Assets/Puzzles/s1.json"))
         {
-            string json = r.ReadToEnd();
-            puzzle = JsonUtility.FromJson<Puzzle>(json);
+            string fulljson = r.ReadToEnd();
+            PuzzleList sudokuList = JsonUtility.FromJson<PuzzleList>(fulljson);
+            puzzle = sudokuList.Random();
         }
     }
 
@@ -86,9 +90,21 @@ public class Board : MonoBehaviour
             players[id].ChangeScore(1);
     }
 
+    [Serializable]
     public class Puzzle
     {
         public int[] start;
         public int[] solution;
+    }
+
+    [Serializable]
+    public class PuzzleList
+    {
+        public Puzzle[] items;
+
+        public Puzzle Random()
+        {
+            return items.OrderBy(s => Guid.NewGuid()).First();
+        }
     }
 }

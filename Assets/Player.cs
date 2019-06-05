@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     int id = -1;
     SpriteRenderer render;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         render = GetComponent<SpriteRenderer>();
         transform.localPosition = Vector2.one * -4 + boardPosition;
@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
     {
         this.id = id;
         render.color = playerColor;
+        scoreElement.color = playerColor;
     }
 
     public void ChangeScore(int amount)
