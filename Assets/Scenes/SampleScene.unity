@@ -1157,6 +1157,7 @@ MonoBehaviour:
   squarePrefab: {fileID: 8441988261247292297, guid: 9730b2e70d4e3ee4c800fc2953374e7e,
     type: 3}
   overlay: {fileID: 270617187}
+  puzzleCount: 12
   players:
   - {fileID: 700820022}
   - {fileID: 1021945305}

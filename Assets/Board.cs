@@ -8,6 +8,7 @@ public class Board : MonoBehaviour
 {
     public GameObject squarePrefab;
     public Overlay overlay;
+    public int puzzleCount;
     public Player[] players;
     public Color[] colorPool = {
         Color.blue,
@@ -49,16 +50,17 @@ public class Board : MonoBehaviour
 
     void LoadJson()
     {
-        using (StreamReader r = new StreamReader("Assets/Puzzles/s1.json"))
+        using (StreamReader r = new StreamReader("Assets/Puzzles/Easy/s"+ UnityEngine.Random.Range(0, puzzleCount) +".json"))
         {
             string fulljson = r.ReadToEnd();
-            PuzzleList sudokuList = JsonUtility.FromJson<PuzzleList>(fulljson);
-            puzzle = sudokuList.Random();
+            puzzle = JsonUtility.FromJson<Puzzle>(fulljson);
+            puzzle.start.Add(0);
         }
     }
 
     void SpawnBoardSquares()
     {
+        var startIndex = 0;
         for (var i = -4; i <= 4; i++)
         {
             for (var j = -4; j <= 4; j++)
@@ -68,9 +70,17 @@ public class Board : MonoBehaviour
                     new Vector3(i, j, 0f),
                     Quaternion.identity
                 ).GetComponent<Square>();
+
+                var startPiece = puzzle.start[startIndex];
+                var solutionPiece = puzzle.solution[i + 4 + (j + 4) * 9];
+                if (startPiece == solutionPiece)
+                    startIndex++;
+                else
+                    startPiece = 0;
+
                 squares[i + 4, j + 4].Initialize(
-                    puzzle.start[i + 4 + (j + 4) * 9],
-                    puzzle.solution[i + 4 + (j + 4) * 9]
+                    startPiece,
+                    solutionPiece
                 );
             }
         }
@@ -119,8 +129,8 @@ public class Board : MonoBehaviour
     [Serializable]
     public class Puzzle
     {
-        public int[] start;
-        public int[] solution;
+        public List<int> start;
+        public List<int> solution;
     }
 
     [Serializable]
